@@ -1,7 +1,7 @@
 module.exports = {
   entry: "./assets/js/entry.js",
   output: {
-    path: __dirname + '/assets/js',
+    path: './assets/js',
     filename: "bundle.js"
   },
   devtool: "source-map",
@@ -11,7 +11,7 @@ module.exports = {
       loaders: ["style", "css?sourceMap", "sass?sourceMap"]
     }, {
       test: /\.css$/,
-      loader: ["style", "css"]
+      loader: ["style", "css?sourceMap"]
     }]
   }
 };

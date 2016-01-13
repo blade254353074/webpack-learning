@@ -8,5 +8,7 @@
 - [webpack使用优化](https://github.com/lcxfs1991/blog/issues/2)
 
 ## Start
-`webpack-dev-server --progress --colors --watch`
-open [http://localhost:8080/webpack-dev-server/bundle](http://localhost:8080/webpack-dev-server/bundle) to watch auto update
+
+* `npm init`
+* `webpack-dev-server --progress --colors --watch`
+* open [http://localhost:8080/webpack-dev-server/bundle](http://localhost:8080/webpack-dev-server/bundle) in browser to watch auto update
