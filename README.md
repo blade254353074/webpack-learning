@@ -6,3 +6,7 @@
 - [Webpack 常用功能介绍](http://segmentfault.com/a/1190000004172052)
 - [如何写一个webpack插件（一）](https://github.com/lcxfs1991/blog/issues/1)
 - [webpack使用优化](https://github.com/lcxfs1991/blog/issues/2)
+
+## Start
+`webpack-dev-server --progress --colors --watch`
+open [http://localhost:8080/webpack-dev-server/bundle](http://localhost:8080/webpack-dev-server/bundle) to watch auto update
