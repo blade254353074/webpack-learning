@@ -8,6 +8,7 @@ This repo is a collection of simple demos of Webpack.
 - [Webpack 常用功能介绍](http://segmentfault.com/a/1190000004172052)
 - [如何写一个webpack插件（一）](https://github.com/lcxfs1991/blog/issues/1)
 - [webpack使用优化](https://github.com/lcxfs1991/blog/issues/2)
+- [基于webpack搭建前端工程解决方案探索](http://segmentfault.com/a/1190000003499526)
 
 ## How to use
 First, install Webpack and webpack-dev-server globally.

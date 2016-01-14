@@ -1,0 +1,5 @@
+button {
+  &::before {
+    content: '• ';
+  }
+}
