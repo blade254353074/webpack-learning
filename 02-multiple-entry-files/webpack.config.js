@@ -1,17 +1,38 @@
+'use strict';
+
 var path = require('path');
 
 // var debug = process.env.NODE_ENV !== 'production';
 var debug = false;
 
+var webpack = require('webpack');
+
+var extractTextPlugin = require('extract-text-webpack-plugin');
+var htmlWebpackPlugin = require('html-webpack-plugin');
+var openBrowserPlugin = require('open-browser-webpack-plugin');
+
+var uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+var commonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+
+var src = path.resolve(process.cwd(), 'src');
+var assets = 'assets/';
+
 module.exports = {
   entry: './src/js/entry.js',
   output: {
     // 其中entry项是入口文件路径映射表，output项是对输出文件路径和名称的配置，占位符如[id]、[chunkhash]、[name]等分别代表编译后的模块id、chunk的hashnum值、chunk名等，可以任意组合决定最终输出的资源格式。
-    path: path.resolve(debug ? '__build' : './assets'),
-    filename: debug ? '[name].js' : 'js/[chunkhash:8].[name].min.js',
-    chunkFilename: debug ? '[chunkhash:8].chunk.js' : 'js/[chunkhash:8].chunk.min.js',
-    publicPath: debug ? '/__build/' : ''
+    path: __dirname + '/assets/js',
+    publicPath: '/assets/js',
+    filename: '[chunkhash:8].[name].min.js',
+    chunkFilename: '[chunkhash:8].chunk.min.js'
   },
+  plugins: [
+    new uglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
+  ],
   resolve: {
     // 把node_modules路径添加到resolve search root列表里边，这样就可以直接load npm模块了
     root: ['./src', '../node_modules'],
