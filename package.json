@@ -5,10 +5,13 @@
   "main": "webpack.config.js",
   "dependencies": {
     "css-loader": "^0.23.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
+    "html-webpack-plugin": "^1.7.0",
     "image-loader": "0.0.1",
     "jquery": "^2.2.0",
     "node-sass": "^3.4.2",
+    "open-browser-webpack-plugin": "0.0.2",
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
