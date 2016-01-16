@@ -22,7 +22,7 @@ module.exports = {
   output: {
     // 其中entry项是入口文件路径映射表，output项是对输出文件路径和名称的配置，占位符如[id]、[chunkhash]、[name]等分别代表编译后的模块id、chunk的hashnum值、chunk名等，可以任意组合决定最终输出的资源格式。
     path: __dirname + '/assets/js',
-    publicPath: '/assets/js',
+    publicPath: '/assets/js/',
     filename: '[chunkhash:8].[name].min.js',
     chunkFilename: '[chunkhash:8].chunk.min.js'
   },

@@ -10,6 +10,13 @@ This repo is a collection of simple demos of Webpack.
 - [webpack使用优化](https://github.com/lcxfs1991/blog/issues/2)
 - [基于webpack搭建前端工程解决方案探索](http://segmentfault.com/a/1190000003499526)
 
+## Documents
+- [Webpack CLI 文档](http://webpack.github.io/docs/cli.html)
+    + Development `webpack -d` === `webpack --debug --devtool source-map --output-pathinfo`
+    + Production `webpack -p` === `webpack --optimize-minimize --optimize-occurence-order`
+    + Watch mode `webpack --watch`
+- [Webpack Config 文档](http://webpack.github.io/docs/configuration.html)
+
 ## How to use
 First, install Webpack and webpack-dev-server globally.
 ```bash
