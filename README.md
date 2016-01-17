@@ -41,3 +41,4 @@ $ cd final
 $ webpack -d
 $ node script.js
 ```
+then open <a href="http://localhost:8080/" target="_blank">http://localhost:8080/</a>
