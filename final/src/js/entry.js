@@ -13,4 +13,9 @@ $(function() {
       module2();
     });
   });
+  $('#module3').on('click', function() {
+    require(['./components/module3/script'], function(module3) {
+      console.log(module3);
+    });
+  });
 });

@@ -7,32 +7,25 @@ var debug = false;
 
 var webpack = require('webpack');
 
-var extractTextPlugin = require('extract-text-webpack-plugin');
-var htmlWebpackPlugin = require('html-webpack-plugin');
-var openBrowserPlugin = require('open-browser-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
-var uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-var commonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 
 var src = path.resolve(process.cwd(), 'src');
-var assets = 'assets/';
+var assets = 'dist/assets/';
 
 module.exports = {
   entry: './src/js/entry.js',
   output: {
     // 其中entry项是入口文件路径映射表，output项是对输出文件路径和名称的配置，占位符如[id]、[chunkhash]、[name]等分别代表编译后的模块id、chunk的hashnum值、chunk名等，可以任意组合决定最终输出的资源格式。
-    path: __dirname + '/assets/js',
-    publicPath: '/assets/js/',
-    filename: '[chunkhash:8].[name].min.js',
-    chunkFilename: '[chunkhash:8].chunk.min.js'
+    path: __dirname + '/dist',
+    publicPath: '/',
+    filename: 'assets/js/[chunkhash:8].[name].min.js',
+    chunkFilename: 'assets/js/[chunkhash:8].chunk.min.js'
   },
-  plugins: [
-    new uglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
-  ],
   resolve: {
     // 把node_modules路径添加到resolve search root列表里边，这样就可以直接load npm模块了
     root: ['./src', '../node_modules'],
@@ -59,5 +52,33 @@ module.exports = {
         'url?limit=10000&name=img/[hash:8].[name].[ext]',
       ]
     }]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(src, 'index.html'),
+      filename: 'index.html',
+      inject: true
+    }),
+    new UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
+  ]
+  // var conf = {
+  //     template: path.resolve(srcDir, filename),
+  //     // @see https://github.com/kangax/html-minifier
+  //     // minify: {
+  //     //     collapseWhitespace: true,
+  //     //     removeComments: true
+  //     // },
+  //     filename: filename
+  // };
+
+  // if(m[1] in config.entry) {
+  //     conf.inject = 'body';
+  //     conf.chunks = ['vendors', m[1]];
+  // }
+
+  // config.plugins.push(new HtmlWebpackPlugin(conf));
 };

@@ -34,3 +34,10 @@ $ cd demo*
 $ webpack-dev-server
 ```
 open [http://localhost:8080/webpack-dev-server/bundle](http://localhost:8080/webpack-dev-server/bundle) in browser to watch auto update
+
+## final
+```bash
+$ cd final
+$ webpack -d
+$ node script.js
+```
