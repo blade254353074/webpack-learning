@@ -4,4 +4,4 @@ define(['jquery', './style'], function($) {
   return {
     name: 'module3'
   };
-})
+});
