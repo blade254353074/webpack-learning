@@ -1017,5 +1017,111 @@ body .markdown-body
 </style><title>plugins</title></head><body><article class="markdown-body"><h1 id="webpack-plugins-introduce"><a name="user-content-webpack-plugins-introduce" href="#webpack-plugins-introduce" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Webpack Plugins Introduce</h1>
 <h2 id="config"><a name="user-content-config" href="#config" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>config</h2>
 <h3 id="normalmodulereplacementplugin"><a name="user-content-normalmodulereplacementplugin" href="#normalmodulereplacementplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>NormalModuleReplacementPlugin</h3>
-<pre><code class="javascript">new webpack.NormalModuleReplacementPlugin(resourceRegExp, newResource)
-</code></pre></article></body></html>
+<p><pre><code class="javascript">new webpack.NormalModuleReplacementPlugin(resourceRegExp, newResource)
+</code></pre><br />
+将<code>resourceRegExp</code>匹配的模块名称 替换为<code>newResource</code></p>
+<p>如果<code>newResource</code>是相对路径，则会将匹配的模块路径替换为次路径的相对路径</p>
+<p>如果<code>newResource</code>是个函数，则意味着重写参数result.request的值即可<br />
+<pre><code class="javascript">new webpackNormalModuleReplacementPlugin(/module-select/, function(result) {
+  result.request = result.request + '-mock'
+})
+</code></pre></p>
+<h3 id="contextreplacementplugin"><a name="user-content-contextreplacementplugin" href="#contextreplacementplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>ContextReplacementPlugin</h3>
+<pre><code class="javascript">new webpack.ContextReplacementPlugin(
+    resourceRegExp, 
+    [newContentResource],
+    [newContentRecursive],
+    [newContentRegExp])
+</code></pre>
+
+<h3 id="ignoreplugin"><a name="user-content-ignoreplugin" href="#ignoreplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>IgnorePlugin</h3>
+<p><pre><code class="javascript">new webpack.IgnorePlugin(resourceRegExp, [contextRegExp])
+</code></pre><br />
+不想bundle的模块，用IgnorePlugin排除<code>resourceRegExp</code>匹配的模块</p>
+<h3 id="prefetchplugin"><a name="user-content-prefetchplugin" href="#prefetchplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>PrefetchPlugin</h3>
+<p><pre><code class="javascript">new webpack.PrefetchPlugin([context], request)
+</code></pre><br />
+在build甚至是require之前预加载模块，可以提高性能。</p>
+<h3 id="resolverplugin"><a name="user-content-resolverplugin" href="#resolverplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>ResolverPlugin</h3>
+<p>Apply a plugin (or array of plugins) to one or more resolvers (as specified in types).</p>
+<p>plugins a plugin or an array of plugins that should be applied to the resolver(s).</p>
+<p>types a resolver type or an array of resolver types (default: [&ldquo;normal&rdquo;], resolver types: normal, context, loader)</p>
+<p>All plugins from enhanced-resolve are exported as properties for the ResolverPlugin.</p>
+<p>Example:<br />
+<pre><code class="javascript">new webpack.ResolverPlugin(plugins, [types])
+</code></pre></p>
+<h3 id="resolverpluginfileappendplugin"><a name="user-content-resolverpluginfileappendplugin" href="#resolverpluginfileappendplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>ResolverPlugin.FileAppendPlugin</h3>
+<p>This plugin will append a path to the module directory to find a match, which can be useful if you have a module which has an incorrect “main” entry in its package.json/bower.json etc (e.g. &ldquo;main&rdquo;: &ldquo;Gruntfile.js&rdquo;). You can use this plugin as a special case to load the correct file for this module. Example:<br />
+<pre><code class="javascript">new webpack.ResolverPlugin([
+  new webpack.ResolverPlugin.FileAppendPlugin(['/dist/compiled-moduled.js'])
+])
+</code></pre></p>
+<h2 id="output"><a name="user-content-output" href="#output" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>output</h2>
+<h3 id="bannerplugin"><a name="user-content-bannerplugin" href="#bannerplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>BannerPlugin</h3>
+<p><pre><code class="javascript">new webpack.BannerPlugin(banner, options)
+</code></pre><br />
+向每个生成的chunk顶部添加标语<br />
+<code>banner</code>是字符串，会用注释包裹<br />
+<code>options.raw</code> <code>true</code>，则不会注释banner<br />
+<code>options.entryOnly</code> <code>true</code>，只添加到入口chunks中</p>
+<h2 id="optimize"><a name="user-content-optimize" href="#optimize" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>optimize</h2>
+<h3 id="dedupeplugin"><a name="user-content-dedupeplugin" href="#dedupeplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>DedupePlugin</h3>
+<p><pre><code class="javascript">new webpack.optimize.DedupePlugin()
+</code></pre><br />
+查找相同或相似的文件，并在输出中删除重复部分。这会给入口chunk带来一些开销，但是可以有效地减少文件大小。</p>
+<p>这个不会改变模块的语义。(不要期望用多个模块实例去解决问题，在重复删除后他们也不会成为一个实例。)?</p>
+<p>不要在<code>watch</code>模式下使用。这个plugin只能在<code>production</code>环境下构建时使用</p>
+<h3 id="limitchunkcountplugin"><a name="user-content-limitchunkcountplugin" href="#limitchunkcountplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>LimitChunkCountPlugin</h3>
+<p><pre><code class="javascript">new webpack.optimize.LimitChunkCountPlugin(options)
+</code></pre><br />
+限制chunk数量为一个定值。Chunks会被合并，直到达到这个定值。</p>
+<p><code>options.maxChunks</code> (number) chunks的最大数量</p>
+<p><code>options.chunkOverhead</code> (number) 每个chunk的附加上限，单位：byte (default 10000, to reflect request delay)</p>
+<p><code>options.entryChunkMultiplicator</code> (number) 入口chunks的最大合并次数 (default 10, entry chunks are merged 10 times less likely)</p>
+<h3 id="minchunksizeplugin"><a name="user-content-minchunksizeplugin" href="#minchunksizeplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>MinChunkSizePlugin</h3>
+<p><pre><code class="javascript">new webpack.optimize.MinChunkSizePlugin(options)
+</code></pre><br />
+合并文件大小小于这个最小值(in chars)的chunks，大小是个大概值。</p>
+<p><code>options.minChunkSize</code> (number) 小于这个数值的chunks会被合并</p>
+<h3 id="occurrenceorderplugin"><a name="user-content-occurrenceorderplugin" href="#occurrenceorderplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>OccurrenceOrderPlugin</h3>
+<p><pre><code class="javascript">new webpack.optimize.OccurrenceOrderPlugin(preferEntry)
+</code></pre><br />
+Assign the module and chunk ids by occurrence count. Ids that are used often get lower (shorter) ids. This make ids predictable, reduces to total file size and is recommended.</p>
+<p>preferEntry (boolean) give entry chunks higher priority. This make entry chunks smaller but increases the overall size. (recommended)</p>
+<h3 id="uglifyjsplugin"><a name="user-content-uglifyjsplugin" href="#uglifyjsplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>UglifyJsPlugin</h3>
+<p><pre><code class="javascript">new webpack.optimize.UglifyJsPlugin([options])
+</code></pre><br />
+压缩所有的chunks。Loaders会被转换为压缩模式。<br />
+你可以添加一个包含 <a href="https://github.com/mishoo/UglifyJS2#usage" target="_blank">UglifyJS 选项</a> 的对象参数：<br />
+<pre><code class="javascript">new webpack.optimize.UglifyJsPlugin({
+    compress: {
+        warnings: false
+    }
+})
+</code></pre></p>
+<p>其他选项：</p>
+<ul>
+<li><code>sourceMap</code> 可以方便错误信息定位。会减慢编译速度 (default <code>true</code>)</li>
+<li><code>test</code>, <code>include</code>, <code>exclude</code> RegExp or array of RegExps to filter processed files (default test: /\.js($|\?)/i)</li>
+<li>混淆变量名配置<br />
+    默认为<code>false</code>. 你可以配置插件来避免特定的变量被混淆:<br />
+    <pre><code class="javascript">new webpack.optimize.UglifyJsPlugin({
+    mangle: {
+        except: ['$super', '$', 'exports', 'require']
+    }
+})
+</code></pre></li>
+</ul>
+<h3 id="ngannotateplugin"><a name="user-content-ngannotateplugin" href="#ngannotateplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>ngAnnotatePlugin</h3>
+<p><code>new ngAnnotatePlugin([options]);</code><br />
+Runs the <a href="https://github.com/olov/ng-annotate">ng-annotate</a> pre-minimizer to insert AngularJS dependency injection annotations.</p>
+<h3 id="commonschunkplugin"><a name="user-content-commonschunkplugin" href="#commonschunkplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>CommonsChunkPlugin</h3>
+<p><pre><code class="javascript">new webpack.optimize.CommonsChunkPlugin(options)
+</code></pre><br />
+- <code>options.name</code> or <code>options.names</code> (string|string[]): The chunk name of the commons chunk. An existing chunk can be selected by passing a name of an existing chunk. If an array of strings is passed this is equal to invoking the plugin multiple times for each chunk name. If omitted and <code>options.async</code> or <code>options.children</code> is set all chunks are used, otherwise <code>options.filename</code> is used as chunk name.<br />
+- <code>options.filename</code> (<code>string</code>): The filename template for the commons chunk. Can contain the same placeholder as <code>output.filename</code>. If omitted the original filename is not modified (usually <code>output.filename</code> or <code>output.chunkFilename</code>.<br />
+- <code>options.minChunks</code> (<code>number</code>|<code>Infinity</code>|<code>function(module, count) -&gt; boolean</code>): The minimum number of chunks which need to contain a module before it’s moved into the commons chunk. The number must be greater than or equal 2 and lower than or equal to the number of chunks. Passing <code>Infinity</code> just creates the commons chunk, but moves no modules into it. By providing a function you can add custom logic. (Defaults to the number of chunks)<br />
+- <code>options.chunks</code> (<code>string[]</code>): Select the source chunks by chunk names. The chunk must be a child of the commons chunk. If omitted all entry chunks are selected.<br />
+- <code>options.children</code> (<code>boolean</code>): If <code>true</code> all children of the commons chunk are selected<br />
+- <code>options.async</code> (<code>boolean</code>): If <code>true</code> a new async commons chunk is created as child of <code>options.name</code> and sibling of <code>options.chunks</code>. It is loaded in parallel with <code>options.chunks</code>.<br />
+- <code>options.minSize</code> (<code>number</code>): Minimum size of all common module before a commons chunk is created.</p></article></body></html>
