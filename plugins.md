@@ -147,7 +147,6 @@ Runs the [ng-annotate](https://github.com/olov/ng-annotate) pre-minimizer to ins
 ```javascript
 new webpack.optimize.CommonsChunkPlugin(options)
 ```
-- `options.name` or `options.names` (`string|string[]`): The chunk name of the commons chunk. An existing chunk can be selected by passing a name of an existing chunk. If an array of strings is passed this is equal to invoking the plugin multiple times for each chunk name. If omitted and `options.async` or `options.children` is set all chunks are used, otherwise `options.filename` is used as chunk name.
 - 公共chunk的块名。可以通过传递一个存在的chunk的名字参数来选中这个chunk。如果传递了一个字符串数组参数，则相当于多次调用这个插件。
     如果省略，并且`options.async`或`options.children`设置为所有被使用的块，否则使用`options.filename`作为块名
 - `options.filename` (`string`): The filename template for the commons chunk. Can contain the same placeholder as `output.filename`. If omitted the original filename is not modified (usually `output.filename` or `output.chunkFilename`.
