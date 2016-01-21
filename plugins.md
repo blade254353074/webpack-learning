@@ -20,7 +20,7 @@ new webpackNormalModuleReplacementPlugin(/module-select/, function(result) {
 ### ContextReplacementPlugin
 ```javascript
 new webpack.ContextReplacementPlugin(
-    resourceRegExp, 
+    resourceRegExp,
     [newContentResource],
     [newContentRecursive],
     [newContentRegExp])
@@ -66,7 +66,7 @@ new webpack.ResolverPlugin([
 ```javascript
 new webpack.BannerPlugin(banner, options)
 ```
-向每个生成的chunk顶部添加标语
+给每个生成的 chunk 文件头部添加注释信息。
 `banner`是字符串，会用注释包裹
 `options.raw` `true`，则不会注释banner
 `options.entryOnly` `true`，只添加到入口chunks中
