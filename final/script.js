@@ -1,5 +1,3 @@
-'use strict';
-
 var path = require('path');
 
 // var debug = process.env.NODE_ENV !== 'production';

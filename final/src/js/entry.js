@@ -18,4 +18,24 @@ $(function() {
       console.log(module3);
     });
   });
+
+  // 在entry中 定义模块会直接运行模块的factory函数
+  /*define('foo', ['jquery', './components/module4/style'], function($) {
+    console.log($);
+    return {
+      module: 'foo'
+    };
+  });*/
+
+  $('#module4').on('click', function() {
+    define('foo', ['jquery', './components/module4/style'], function($) {
+      console.log($);
+      return {
+        module: 'foo'
+      };
+    });
+    require(['foo'], function(foo) {
+      console.log(foo);
+    });
+  });
 });
