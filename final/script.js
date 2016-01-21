@@ -38,7 +38,7 @@ var compiler = webpack({
   module: {
     loaders: [{
       test: /\.scss$/i,
-      loaders: ['style', 'css', 'sass']
+      loaders: ['style', 'css', 'autoprefixer?{browsers:["last 2 version", "> 1%"]}', 'sass']
     }, {
       // 对于css文件，默认情况下webpack会把css content内嵌到js里边，运行时会使用style标签内联。如果希望将css使用link标签引入，可以使用ExtractTextPlugin插件进行提取。
       test: /\.css$/i,
@@ -85,6 +85,10 @@ var server = new WebpackDevServer(compiler, {
   stats: { colors: true },
 });
 
-server.listen(8080, 'localhost', function() {
-  console.log('Server on listening');
+compiler.run(function(err, stats) {
+  if (err) throw err;
+  console.log(stats);
+  server.listen(8080, 'localhost', function() {
+    console.log('Server on listening');
+  });
 });

@@ -4,7 +4,9 @@
   "description": "webpack async module",
   "main": "webpack.config.js",
   "dependencies": {
+    "autoprefixer-loader": "^3.2.0",
     "css-loader": "^0.23.1",
+    "express": "^4.13.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "html-webpack-plugin": "^1.7.0",
@@ -16,6 +18,8 @@
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.11",
+    "webpack-dev-hmr": "^1.0.0",
+    "webpack-dev-middleware": "^1.4.0",
     "webpack-dev-server": "^1.14.1"
   },
   "devDependencies": {},

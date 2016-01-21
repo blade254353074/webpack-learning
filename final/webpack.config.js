@@ -16,12 +16,12 @@ var src = path.resolve(process.cwd(), 'src');
 var assets = 'dist/assets/';
 
 module.exports = {
-  entry: './src/js/entry.js',
+  entry: ['./src/js/entry.js'],
   output: {
     // 其中entry项是入口文件路径映射表，output项是对输出文件路径和名称的配置，占位符如[id]、[chunkhash]、[name]等分别代表编译后的模块id、chunk的hashnum值、chunk名等，可以任意组合决定最终输出的资源格式。
     path: process.cwd() + '/dist',
     publicPath: '/',
-    filename: 'assets/js/[chunkhash:8].[name].min.js',
+    filename: 'assets/js/[hash:8].[name].min.js',
     chunkFilename: 'assets/js/[chunkhash:8].chunk.min.js'
   },
   resolve: {
@@ -37,7 +37,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.scss$/i,
-      loaders: ['style', 'css', 'sass']
+      loaders: ['style', 'css', 'autoprefixer?{browsers:["last 2 version", "> 1%"]}', 'sass']
     }, {
       // 对于css文件，默认情况下webpack会把css content内嵌到js里边，运行时会使用style标签内联。如果希望将css使用link标签引入，可以使用ExtractTextPlugin插件进行提取。
       test: /\.css$/i,
@@ -53,30 +53,17 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-        template: path.resolve(src, 'index.html'),
-        filename: 'index.html',
-        inject: true
-      }),
+      template: path.resolve(src, 'index.html'),
+      filename: 'index.html',
+      inject: true
+    }),
     new UglifyJsPlugin({
-        compress: {
-          warnings: false
-        }
-      })
+      compress: {
+        warnings: false
+      }
+    }),
+
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
   ]
-    // var conf = {
-    //     template: path.resolve(srcDir, filename),
-    //     // @see https://github.com/kangax/html-minifier
-    //     // minify: {
-    //     //     collapseWhitespace: true,
-    //     //     removeComments: true
-    //     // },
-    //     filename: filename
-    // };
-
-  // if(m[1] in config.entry) {
-  //     conf.inject = 'body';
-  //     conf.chunks = ['vendors', m[1]];
-  // }
-
-  // config.plugins.push(new HtmlWebpackPlugin(conf));
 };
