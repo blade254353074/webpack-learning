@@ -39,9 +39,12 @@ open [http://localhost:8080/webpack-dev-server/bundle](http://localhost:8080/web
 ## final
 ```bash
 $ cd final
+
 # for production
 $ webpack -d
-# for development
+
+# or for development
 $ node app.js
+# then open http://localhost:3000/webpack-dev-server/ in your browser
 ```
-then open <a href="http://localhost:8080/" target="_blank">http://localhost:8080/</a>
+then open <a href="http://localhost:3000/" target="_blank">http://localhost:3000/</a>
