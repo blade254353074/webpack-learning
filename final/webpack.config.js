@@ -64,6 +64,7 @@ module.exports = {
     }),
 
     new webpack.HotModuleReplacementPlugin(),
+    // 允许错误不打断程序
     new webpack.NoErrorsPlugin()
   ]
 };
