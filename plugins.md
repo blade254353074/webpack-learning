@@ -155,3 +155,49 @@ new webpack.optimize.CommonsChunkPlugin(options)
 - `options.children` (`boolean`): If `true` all children of the commons chunk are selected
 - `options.async` (`boolean`): If `true` a new async commons chunk is created as child of `options.name` and sibling of `options.chunks`. It is loaded in parallel with `options.chunks`.
 - `options.minSize` (`number`): Minimum size of all common module before a commons chunk is created.
+
+Examples:
+1. Commons chunk for entries (入口的公共块)
+生成一个附加的块，这个块包含由入口之间共享的公共的模块
+```javascript
+new CommonsChunkPlugin({
+    name: 'commons',
+    // (公共块名)
+    filename: 'commons.js',
+    // (公共块文件名)
+
+    // minChunks: 3,
+    // (模块必须由三个入口共享)(Modules must be shared between 3 entries)
+
+    // chunks: ["pageA", "pageB"],
+    // (只使用这些入口)
+})
+```
+必须在入口之前加载生成的块
+```javascript
+<script src="commons.js" charset="utf-8"></script>
+<script src="entry.bundle.js" charset="utf-8"></script>
+```
+2. Explicit vendor chunk (明确依赖块)
+将你的代码分离成依赖和应用?(Split your code into vendor and application.)
+```javascript
+entry: {
+  vendor: ["jquery", "other-lib"],
+  app: "./entry"
+}
+new CommonsChunkPlugin({
+  name: "vendor",
+
+  // filename: "vendor.js"
+  // (Give the chunk a different name)
+
+  minChunks: Infinity,
+  // (with more entries, this ensures that no other module
+  //  goes into the vendor chunk)
+})
+```
+```javascript
+<script src="vendor.js" charset="utf-8"></script>
+<script src="app.js" charset="utf-8"></script>
+```
+提示：为了让浏览器长期缓存，你需要这个插件来避免依赖块的多种变化(导致的缓存失效，或者无缓存)。你还应该用记录去确定稳定的模块ID
