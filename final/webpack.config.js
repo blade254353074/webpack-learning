@@ -16,7 +16,10 @@ var src = path.resolve(process.cwd(), 'src');
 var assets = 'dist/assets/';
 
 module.exports = {
-  entry: ['./src/js/entry.js'],
+  entry: {
+    vendor: ['jquery'],
+    app: ['./src/js/entry.js']
+  },
   output: {
     // 其中entry项是入口文件路径映射表，output项是对输出文件路径和名称的配置，占位符如[id]、[chunkhash]、[name]等分别代表编译后的模块id、chunk的hashnum值、chunk名等，可以任意组合决定最终输出的资源格式。
     path: process.cwd() + '/dist',
@@ -57,12 +60,16 @@ module.exports = {
       filename: 'index.html',
       inject: true
     }),
-    new UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
+    // new UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false
+    //   }
+    // }),
+    new CommonsChunkPlugin({
+      name: 'vendor',
+      filename: 'assets/js/vendor.js',
+      minChunks: Infinity
     }),
-
     new webpack.HotModuleReplacementPlugin(),
     // 允许错误不打断程序
     new webpack.NoErrorsPlugin()

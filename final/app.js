@@ -7,16 +7,16 @@
   var WebpackDevServer = require("webpack-dev-server");
   var webpackMiddleware = require("webpack-dev-middleware");
   var webpackConfig = require("./webpack.config.js");
-  webpackConfig.entry.unshift('webpack/hot/dev-server');
+  webpackConfig.entry.app.unshift('webpack/hot/dev-server');
   var webpackCompiler = webpack(webpackConfig);
   var hmr = require("webpack-dev-hmr");
 
-  var port = 3000;
+  var port = 9000;
   var server = new WebpackDevServer(webpackCompiler, {
     contentBase: 'dist',
-    // proxy: {
-    //   '*': 'http://localhost:9090'
-    // },
+    proxy: {
+      '*': 'http://localhost:3000'
+    },
     hot: true, // Hot Module Replacement
     quiet: false,
     noInfo: false,

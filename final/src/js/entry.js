@@ -38,4 +38,11 @@ $(function() {
       console.log(foo);
     });
   });
+
+  $('#module5').on('click', function(event) {
+    event.preventDefault();
+    require(['./components/module5/script'], function() {
+
+    })
+  });
 });

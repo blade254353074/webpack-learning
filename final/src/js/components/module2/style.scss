@@ -1,5 +1,9 @@
 button {
   &::before {
-    content: '• ';
+    content: '@';
+    display: inline-block;
+    margin-right: 10px;
+    transform: scale(1.05);
+    transform-origin: center;
   }
 }

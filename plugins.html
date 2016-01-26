@@ -1028,7 +1028,7 @@ body .markdown-body
 </code></pre></p>
 <h3 id="contextreplacementplugin"><a name="user-content-contextreplacementplugin" href="#contextreplacementplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>ContextReplacementPlugin</h3>
 <pre><code class="javascript">new webpack.ContextReplacementPlugin(
-    resourceRegExp, 
+    resourceRegExp,
     [newContentResource],
     [newContentRecursive],
     [newContentRegExp])
@@ -1060,7 +1060,7 @@ body .markdown-body
 <h3 id="bannerplugin"><a name="user-content-bannerplugin" href="#bannerplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>BannerPlugin</h3>
 <p><pre><code class="javascript">new webpack.BannerPlugin(banner, options)
 </code></pre><br />
-向每个生成的chunk顶部添加标语<br />
+给每个生成的 chunk 文件头部添加注释信息。<br />
 <code>banner</code>是字符串，会用注释包裹<br />
 <code>options.raw</code> <code>true</code>，则不会注释banner<br />
 <code>options.entryOnly</code> <code>true</code>，只添加到入口chunks中</p>
@@ -1118,7 +1118,6 @@ Runs the <a href="https://github.com/olov/ng-annotate">ng-annotate</a> pre-minim
 <h3 id="commonschunkplugin"><a name="user-content-commonschunkplugin" href="#commonschunkplugin" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>CommonsChunkPlugin</h3>
 <p><pre><code class="javascript">new webpack.optimize.CommonsChunkPlugin(options)
 </code></pre><br />
-- <code>options.name</code> or <code>options.names</code> (<code>string|string[]</code>): The chunk name of the commons chunk. An existing chunk can be selected by passing a name of an existing chunk. If an array of strings is passed this is equal to invoking the plugin multiple times for each chunk name. If omitted and <code>options.async</code> or <code>options.children</code> is set all chunks are used, otherwise <code>options.filename</code> is used as chunk name.<br />
 - 公共chunk的块名。可以通过传递一个存在的chunk的名字参数来选中这个chunk。如果传递了一个字符串数组参数，则相当于多次调用这个插件。<br />
     如果省略，并且<code>options.async</code>或<code>options.children</code>设置为所有被使用的块，否则使用<code>options.filename</code>作为块名<br />
 - <code>options.filename</code> (<code>string</code>): The filename template for the commons chunk. Can contain the same placeholder as <code>output.filename</code>. If omitted the original filename is not modified (usually <code>output.filename</code> or <code>output.chunkFilename</code>.<br />
@@ -1126,4 +1125,45 @@ Runs the <a href="https://github.com/olov/ng-annotate">ng-annotate</a> pre-minim
 - <code>options.chunks</code> (<code>string[]</code>): Select the source chunks by chunk names. The chunk must be a child of the commons chunk. If omitted all entry chunks are selected.<br />
 - <code>options.children</code> (<code>boolean</code>): If <code>true</code> all children of the commons chunk are selected<br />
 - <code>options.async</code> (<code>boolean</code>): If <code>true</code> a new async commons chunk is created as child of <code>options.name</code> and sibling of <code>options.chunks</code>. It is loaded in parallel with <code>options.chunks</code>.<br />
-- <code>options.minSize</code> (<code>number</code>): Minimum size of all common module before a commons chunk is created.</p></article></body></html>
+- <code>options.minSize</code> (<code>number</code>): Minimum size of all common module before a commons chunk is created.</p>
+<p>Examples:<br />
+1. Commons chunk for entries (入口的公共块)<br />
+生成一个附加的块，这个块包含由入口之间共享的公共的模块<br />
+<pre><code class="javascript">new CommonsChunkPlugin({
+    name: 'commons',
+    // (公共块名)
+    filename: 'commons.js',
+    // (公共块文件名)
+
+    // minChunks: 3,
+    // (模块必须由三个入口共享)(Modules must be shared between 3 entries)
+
+    // chunks: [&quot;pageA&quot;, &quot;pageB&quot;],
+    // (只使用这些入口)
+})
+</code></pre><br />
+必须在入口之前加载生成的块<br />
+<pre><code class="javascript">&lt;script src=&quot;commons.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;entry.bundle.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+</code></pre><br />
+2. Explicit vendor chunk (明确依赖块)<br />
+将你的代码分离成依赖和应用?(Split your code into vendor and application.)<br />
+<pre><code class="javascript">entry: {
+  vendor: [&quot;jquery&quot;, &quot;other-lib&quot;],
+  app: &quot;./entry&quot;
+}
+new CommonsChunkPlugin({
+  name: &quot;vendor&quot;,
+
+  // filename: &quot;vendor.js&quot;
+  // (Give the chunk a different name)
+
+  minChunks: Infinity,
+  // (with more entries, this ensures that no other module
+  //  goes into the vendor chunk)
+})
+</code></pre><br />
+<pre><code class="javascript">&lt;script src=&quot;vendor.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;app.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+</code></pre><br />
+提示：为了让浏览器长期缓存，你需要这个插件来避免依赖块的多种变化(导致的缓存失效，或者无缓存)。你还应该用记录去确定稳定的模块ID</p></article></body></html>
